@@ -7,7 +7,7 @@ import logging
 import attrs
 import hyperlink
 
-from nexor.cli import command
+from . import ENTRY_DATA
 from gather.commands import add_argument
 
 LOGGER = logging.getLogger(__name__)
@@ -77,7 +77,7 @@ ARGS_TO_FIELDS = dict(
 )
 
 
-@command(
+@ENTRY_DATA.register(
     add_argument("--no-dry-run", action="store_true", default=False),
     *[
         add_argument("--" + field.name.replace("_", "_"))

@@ -6,7 +6,7 @@ import nox
 nox.options.envdir = "build/nox"
 nox.options.sessions = ["lint", "tests", "mypy", "docs", "build"]
 
-VERSIONS = ["3.9", "3.10"]
+VERSIONS = ["3.11"]
 
 
 @nox.session(python=VERSIONS)
@@ -14,7 +14,7 @@ def tests(session):
     tmpdir = session.create_tmp()
     session.install("-r", "requirements-tests.txt")
     session.install("-e", ".")
-    tests = session.posargs or ["nexor_moshez.tests"]
+    tests = session.posargs or ["dotmoshez.tests"]
     session.run(
         "coverage",
         "run",
