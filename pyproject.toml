@@ -10,7 +10,7 @@ version = "2022.3.6.2"
 description = "Moshe'z personal nexor utilities"
 readme = "README.rst"
 authors = [{name = "Moshe Zadka", email = "moshez@zadka.club"}]
-dependencies = ["nexor"]
+dependencies = ["gather"]
 
 [project.optional-dependencies]
 tests = ["virtue", "pyhamcrest", "coverage"]
