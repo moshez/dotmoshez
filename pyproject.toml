@@ -19,7 +19,7 @@ lint = ["flake8", "black"]
 docs = ["sphinx"]
 
 [project.entry-points.gather]
-placeholder = "nexor_moshez"
+placeholder = "dotmoshez"
 
 [project.license]
 text = """
