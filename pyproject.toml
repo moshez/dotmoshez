@@ -1,13 +1,13 @@
 [build-system]
 requires = [
-    "setuptools"
+    "setuptools", "autocalver"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "nexor_moshez"
-version = "2022.3.6.2"
-description = "Moshe'z personal nexor utilities"
+name = "dotmoshez"
+dynamic = ["version"]
+description = "Moshe'z personal utilities"
 readme = "README.rst"
 authors = [{name = "Moshe Zadka", email = "moshez@zadka.club"}]
 dependencies = ["gather"]
@@ -42,4 +42,12 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 [project.urls]
-Homepage = "https://github.com/moshez/nexor_moshez"
+Homepage = "https://github.com/moshez/dotmoshez"
+
+[tool.autocalver]
+use = true
+log = "git-log-head"
+log_command = "git log -n 1 --date=iso"
+is_main_var = "GITHUB_REF"
+is_main_match = ".*/trunk$"
+
