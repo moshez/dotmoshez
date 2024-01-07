@@ -6,7 +6,7 @@ from . import ENTRY_DATA
 from gather.commands import add_argument
 
 
-def make_git(args):
+def make_git(args): # pragma: no cover
     def git(*cmdargs):
         return args.run(["git", *cmdargs], cwd=args.env["PWD"])
     return git

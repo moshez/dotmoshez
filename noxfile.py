@@ -19,7 +19,7 @@ def tests(session):
         "coverage",
         "run",
         "--branch",
-        "--source=nexor_moshez",
+        "--source=dotmoshez",
         "--omit=**/__main__.py",
         "-m",
         "virtue",
