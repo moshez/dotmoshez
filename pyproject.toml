@@ -51,3 +51,6 @@ log_command = "git log -n 1 --date=iso"
 is_main_var = "GITHUB_REF"
 is_main_match = ".*/trunk$"
 
+[project.scripts]
+dotmoshez = "dotmoshez:ENTRY_DATA.main_command"
+clean-ipynb = "dotmoshez:ENTRY_DATA.sub_command"
