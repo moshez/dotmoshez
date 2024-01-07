@@ -10,7 +10,7 @@ from gather.commands import add_argument
     add_argument("--no-dry-run", action="store_true", default=True),
     name="clean-ipynb",
 )
-def clean_ipynb(args): # pragma: no cover
+def clean_ipynb(args):  # pragma: no cover
     for root, dirs, files in os.walk(args.env["PWD"]):
         ipynb_cp = pathlib.Path(root) / ".ipynb_checkpoints"
         if not ipynb_cp.is_dir():
