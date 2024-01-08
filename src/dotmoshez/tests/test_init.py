@@ -6,6 +6,7 @@ from .. import clean_ipynb
 from .. import init_py
 from .. import git_extras
 from .. import ssh
+from .. import bash
 
 
 class TestInit(unittest.TestCase):
@@ -20,6 +21,9 @@ class TestInit(unittest.TestCase):
 
     def test_ssh(self):
         assert_that(ssh.__doc__ or "", contains_string(""))
+
+    def test_bash(self):
+        assert_that(bash.__doc__ or "", contains_string(""))
 
     def test_git_extras(self):
         assert_that(git_extras.__doc__ or "", contains_string(""))
