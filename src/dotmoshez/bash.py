@@ -8,11 +8,8 @@ from gather.commands import add_argument
 from . import ENTRY_DATA
 
 
-@ENTRY_DATA.register(
-    add_argument("--dotfiles", required=True),
-    name="bash-init"
-)
-def shell_init(args):
+@ENTRY_DATA.register(add_argument("--dotfiles", required=True), name="bash-init")
+def shell_init(args):  # pragma: no cover
     home = pathlib.Path(args.env["HOME"])
     dotfiles_bin = pathlib.Path(args.dotfiles) / "bin"
     local_bin = home / ".local" / "bin"
@@ -28,19 +25,24 @@ def shell_init(args):
     print(f"source {os.fspath(venvwrapper)}")
     args.safe_run(["starship", "init", "bash"], capture_output=False)
     print(f"export PATH={target_path}")
-    print(textwrap.dedent("""\
+    print(
+        textwrap.dedent(
+            """\
     function set_win_title(){
         echo -ne "\033]0; $(basename "$PWD") ${VIRTUAL_ENV_PROMPT} \007";
     }
     starship_precmd_user_func="set_win_title"
-    """))
+    """
+        )
+    )
+
 
 @ENTRY_DATA.register(
     add_argument("--dotfiles", required=True),
     add_argument("--no-dry-run", action="store_true", default=False),
     name="bash-install",
 )
-def install(args):
+def install(args):  # pragma: no cover
     config = pathlib.Path(args.env["HOME"]) / ".config"
     dotfiles_config = pathlib.Path(args.dotfiles) / "config"
     if config.is_symlink():
