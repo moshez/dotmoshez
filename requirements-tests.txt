@@ -4,6 +4,8 @@
 #
 #    pip-compile --extra=tests --output-file=requirements-tests.txt pyproject.toml
 #
+annotated-types==0.6.0
+    # via pydantic
 attrs==23.2.0
     # via
     #   automat
@@ -15,37 +17,103 @@ automat==22.10.0
 click==8.1.7
     # via virtue
 colorama==0.4.6
-    # via virtue
+    # via
+    #   copier
+    #   virtue
 constantly==23.10.4
     # via twisted
+copier==9.1.0
+    # via dotmoshez (pyproject.toml)
 coverage==7.4.0
     # via dotmoshez (pyproject.toml)
+decorator==5.1.1
+    # via copier
+distlib==0.3.8
+    # via virtualenv
+dunamai==1.19.0
+    # via copier
+filelock==3.13.1
+    # via virtualenv
+funcy==2.0
+    # via copier
 gather==2024.1.5.3
     # via dotmoshez (pyproject.toml)
 hyperlink==21.0.0
-    # via twisted
+    # via
+    #   dotmoshez (pyproject.toml)
+    #   twisted
 idna==3.6
     # via hyperlink
 incremental==22.10.0
     # via
     #   gather
     #   twisted
+jinja2==3.1.2
+    # via
+    #   copier
+    #   jinja2-ansible-filters
+jinja2-ansible-filters==1.3.2
+    # via copier
+markupsafe==2.1.3
+    # via jinja2
+packaging==23.2
+    # via
+    #   copier
+    #   dunamai
+pathspec==0.12.1
+    # via copier
+pbr==6.0.0
+    # via stevedore
+platformdirs==4.1.0
+    # via virtualenv
+plumbum==1.8.2
+    # via copier
+prompt-toolkit==3.0.36
+    # via questionary
+pydantic==2.5.3
+    # via copier
+pydantic-core==2.14.6
+    # via pydantic
+pygments==2.17.2
+    # via copier
 pyhamcrest==2.1.0
     # via dotmoshez (pyproject.toml)
 pyrsistent==0.20.0
     # via virtue
+pyyaml==6.0.1
+    # via
+    #   copier
+    #   jinja2-ansible-filters
+    #   pyyaml-include
+pyyaml-include==1.3.2
+    # via copier
+questionary==2.0.1
+    # via copier
 six==1.16.0
     # via automat
+stevedore==5.1.0
+    # via virtualenvwrapper
 toolz==0.12.0
     # via gather
 twisted==23.10.0
     # via virtue
 typing-extensions==4.9.0
-    # via twisted
+    # via
+    #   pydantic
+    #   pydantic-core
+    #   twisted
 venusian==3.1.0
     # via gather
+virtualenv==20.25.0
+    # via virtualenvwrapper
+virtualenv-clone==0.5.7
+    # via virtualenvwrapper
+virtualenvwrapper==6.0.0
+    # via dotmoshez (pyproject.toml)
 virtue==2023.8.2
     # via dotmoshez (pyproject.toml)
+wcwidth==0.2.13
+    # via prompt-toolkit
 zope-interface==6.1
     # via twisted
 
