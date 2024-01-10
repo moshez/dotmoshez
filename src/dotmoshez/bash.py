@@ -55,7 +55,7 @@ def install(args):  # pragma: no cover
     bash_profile = pathlib.Path(args.env["HOME"]) / ".bash_profile"
     python = sys.executable
     bash_init = f'eval "$({python} -m dotmoshez bash-init --dotfiles {args.dotfiles})"'
-    ssh_agent = f'eval "$({python} -m dotmoshez ssh-agent --no-dry-run)"'
+    ssh_agent = f'eval "$({python} -m dotmoshez ssh-agent-env --no-dry-run)"'
     with contextlib.ExitStack() as stack:
         if args.no_dry_run:
             fpout = stack.enter_context(bash_profile.open("a"))
