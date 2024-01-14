@@ -9,6 +9,8 @@ import hyperlink
 
 from . import ENTRY_DATA
 from gather.commands import add_argument
+from commander_data import run_all
+from commander_data.common import GIT, LOCAL_PYTHON
 
 LOGGER = logging.getLogger(__name__)
 
@@ -59,14 +61,14 @@ def get_details(args):  # pragma: no cover
     db = parse_args(DetailsBuilder(), args)
     cwd = pathlib.Path(args.env["PWD"])
     try:
-        called = args.safe_run(["git", "remote", "get-url", "origin"], cwd=cwd)
+        called = args.safe_run(GIT.remote.get_url.origin, cwd=cwd)
     except subprocess.CalledProcessError:
         has_git = False
         LOGGER.info("Git info not available")
     else:
         db = parse_remote(db, called.stdout)
         has_git = True
-    called = args.safe_run(["git", "config", "--get-regexp", r"^user\."], cwd=cwd)
+    called = args.safe_run(GIT.config(get_regexp=r"^user\."), cwd=cwd)
     db = parse_user(db, called.stdout)
     return db.data(), has_git
 
@@ -86,24 +88,25 @@ ARGS_TO_FIELDS = dict(
 )
 def init(args):  # pragma: no cover
     data, has_git = get_details(args)
-    cmdline = [
-        sys.executable,
-        "-m",
-        "copier",
-        "copy",
+    cmdline = LOCAL_PYTHON.module.copier.copy(
         "gh:moshez/python-standard.git",
         args.env["PWD"],
-    ]
-    cmdline += [
-        f"--data={ARGS_TO_FIELDS.get(key, key)}={value}" for key, value in data.items()
-    ]
+        *(
+            f"--data={ARGS_TO_FIELDS.get(key, key)}={value}"
+            for key, value in data.items()
+        )
+    )
     args.run(
         cmdline,
         capture_output=False,
     )
     if not has_git:
         url = f"https://github.com/{data['organization']}/{data['name']}"
-        args.run(["git", "init", "."], cwd=args.env["PWD"])
-        args.run(["git", "remote", "add", "origin", url], cwd=args.env["PWD"])
-        args.run(["git", "commit", "--allow-empty", "-m", "Initial commit"])
-        args.run(["git", "push", "--set-upstream", "origin", "trunk"])
+        run_all(
+            args.run,
+            GIT.init("."),
+            GIT.remote.add.origin(url),
+            GIT.commit(allow_empty=None, m="Initial commit"),
+            GIT.push(set_upstream="origin")("trunk"),
+            cwd=args.env["PWD"],
+        )

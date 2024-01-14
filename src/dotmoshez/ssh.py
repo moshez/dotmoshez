@@ -3,6 +3,7 @@ import pathlib
 
 from . import ENTRY_DATA
 from gather.commands import add_argument
+from commander_data import COMMAND
 
 
 @ENTRY_DATA.register(
@@ -13,21 +14,17 @@ from gather.commands import add_argument
 )
 def sshirc(args):  # pragma: no cover
     execlp = getattr(args, "execlp", os.execlp)
-    command = ["tmux", "at"]
-    dockerize = [
-        "sudo",
-        "docker",
-        "exec",
-        "-it",
-        "-u",
-        args.user,
-        args.container,
-    ] + command
-    ssh_opts = []
-    for key, value in dict(ServerAliveInterval=5, ServerAliveCountMax=2).items():
-        ssh_opts.extend(["-o", f"{key}={value}"])
-    sshize = ["ssh", "ssh", *ssh_opts, "-t", f"{args.user}@{args.host}"] + dockerize
-    execlp(*sshize)
+    command = list(
+        COMMAND.ssh(
+            o=["ServerAliveInterval=5", "ServerAliveCountMax=2"],
+            t=f"{args.user}@{args.host}",
+        ).sudo.docker.exec(
+            i=None, t=None, u=args.user
+        )(
+            args.container
+        ).tmux.at
+    )
+    execlp(command[0], *command)
 
 
 def parse_environment(env_path):  # pragma: no cover

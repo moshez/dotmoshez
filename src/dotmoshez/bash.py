@@ -6,6 +6,7 @@ import textwrap
 
 from gather.commands import add_argument
 from . import ENTRY_DATA
+from commander_data import COMMAND
 
 
 @ENTRY_DATA.register(add_argument("--dotfiles", required=True), name="bash-init")
@@ -23,7 +24,7 @@ def shell_init(args):  # pragma: no cover
     venvwrapper = pathlib.Path(sys.prefix) / "bin" / "virtualenvwrapper.sh"
     print(f"export WORKON_HOME={workon_home}")
     print(f"source {os.fspath(venvwrapper)}")
-    args.safe_run(["starship", "init", "bash"], capture_output=False)
+    args.safe_run(COMMAND.starship.init.bash, capture_output=False)
     print(f"export PATH={target_path}")
     print(
         textwrap.dedent(
