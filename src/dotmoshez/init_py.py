@@ -1,3 +1,4 @@
+from __future__ import annotations
 import argparse
 import logging
 import pathlib
@@ -36,13 +37,17 @@ class DetailsBuilder:  # pragma: no cover
         return res
 
 
-def parse_args(db: DetailsBuilder, args: argparse.Namespace) -> DetailsBuilder:  # pragma: no cover
+def parse_args(
+    db: DetailsBuilder, args: argparse.Namespace
+) -> DetailsBuilder:  # pragma: no cover
     for field in attrs.fields(type(db)):
         db = db.inform(field.name, getattr(args, field.name))
     return db
 
 
-def parse_remote(db: DetailsBuilder, git_remote_output: str) -> DetailsBuilder:  # pragma: no cover
+def parse_remote(
+    db: DetailsBuilder, git_remote_output: str
+) -> DetailsBuilder:  # pragma: no cover
     link = hyperlink.parse(git_remote_output.strip())
     organization, name = link.path[-2:]
     db = db.inform("organization", organization)
@@ -50,14 +55,18 @@ def parse_remote(db: DetailsBuilder, git_remote_output: str) -> DetailsBuilder: 
     return db
 
 
-def parse_user(db: DetailsBuilder, git_user_cofig: str) -> DetailsBuilder:  # pragma: no cover
+def parse_user(
+    db: DetailsBuilder, git_user_cofig: str
+) -> DetailsBuilder:  # pragma: no cover
     details = dict(line.split(None, 1) for line in git_user_cofig.splitlines())
     for key, value in details.items():
         db = db.inform("maintainer_" + key.removeprefix("user."), value)
     return db
 
 
-def get_details(args: argparse.Namespace) -> tuple[Mapping[str, str], bool]:  # pragma: no cover
+def get_details(
+    args: argparse.Namespace,
+) -> tuple[Mapping[str, str], bool]:  # pragma: no cover
     db = parse_args(DetailsBuilder(), args)
     cwd = pathlib.Path(args.env["PWD"])
     try:

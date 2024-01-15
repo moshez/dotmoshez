@@ -1,6 +1,5 @@
 import argparse
 import contextlib
-import io
 import os
 import pathlib
 import sys
@@ -63,6 +62,6 @@ def install(args: argparse.Namespace) -> None:  # pragma: no cover
         if args.no_dry_run:
             fpout = stack.enter_context(bash_profile.open("a"))
         else:
-            fpout = sys.stdout # type: ignore
+            fpout = sys.stdout  # type: ignore
         print(bash_init, file=fpout)
         print(ssh_agent, file=fpout)

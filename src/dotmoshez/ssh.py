@@ -27,7 +27,9 @@ def sshirc(args: argparse.Namespace) -> None:  # pragma: no cover
     execlp(command[0], *command)
 
 
-def parse_environment(env_path: pathlib.Path) -> Iterator[tuple[str, str]]:  # pragma: no cover
+def parse_environment(
+    env_path: pathlib.Path,
+) -> Iterator[tuple[str, str]]:  # pragma: no cover
     try:
         content = env_path.read_text()
     except OSError:
