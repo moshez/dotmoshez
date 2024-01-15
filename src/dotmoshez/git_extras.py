@@ -1,3 +1,4 @@
+import argparse
 import pathlib
 
 from . import ENTRY_DATA
@@ -10,7 +11,7 @@ from commander_data import run_all
     add_argument("--no-dry-run", action="store_true", default=True),
     name="git-sync",
 )
-def git_sync(args):  # pragma: no cover
+def git_sync(args: argparse.Namespace) -> None:  # pragma: no cover
     run_all(
         args.run,
         GIT.add("."),
@@ -25,7 +26,7 @@ def git_sync(args):  # pragma: no cover
     add_argument("name"),
     name="git-create",
 )
-def git_create(args):  # pragma: no cover
+def git_create(args: argparse.Namespace) -> None:  # pragma: no cover
     target_dir = pathlib.Path(args.env["HOME"]) / "src" / args.name
     target_dir.mkdir(parents=True)
     run_all(

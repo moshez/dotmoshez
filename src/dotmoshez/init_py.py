@@ -1,15 +1,16 @@
-import pathlib
-from typing import Optional
-import subprocess
+import argparse
 import logging
+import pathlib
+from typing import Optional, Mapping
+import subprocess
 
 import attrs
-import hyperlink
-
-from . import ENTRY_DATA
-from gather.commands import add_argument
 from commander_data import run_all
 from commander_data.common import GIT, LOCAL_PYTHON
+import hyperlink
+from gather.commands import add_argument
+
+from . import ENTRY_DATA
 
 LOGGER = logging.getLogger(__name__)
 
@@ -22,12 +23,12 @@ class DetailsBuilder:  # pragma: no cover
     maintainer_name: Optional[str] = attrs.field(default=None)
     maintainer_email: Optional[str] = attrs.field(default=None)
 
-    def inform(self, name, value):
+    def inform(self, name: str, value: Optional[str]) -> DetailsBuilder:
         if getattr(self, name) is not None:
             return self
         return attrs.evolve(self, **{name: value})
 
-    def data(self):
+    def data(self) -> Mapping[str, str]:
         res = attrs.asdict(self)
         not_ready = [key for key, value in res.items() if value is None]
         if len(not_ready) != 0:
@@ -35,13 +36,13 @@ class DetailsBuilder:  # pragma: no cover
         return res
 
 
-def parse_args(db, args):  # pragma: no cover
+def parse_args(db: DetailsBuilder, args: argparse.Namespace) -> DetailsBuilder:  # pragma: no cover
     for field in attrs.fields(type(db)):
         db = db.inform(field.name, getattr(args, field.name))
     return db
 
 
-def parse_remote(db, git_remote_output):  # pragma: no cover
+def parse_remote(db: DetailsBuilder, git_remote_output: str) -> DetailsBuilder:  # pragma: no cover
     link = hyperlink.parse(git_remote_output.strip())
     organization, name = link.path[-2:]
     db = db.inform("organization", organization)
@@ -49,14 +50,14 @@ def parse_remote(db, git_remote_output):  # pragma: no cover
     return db
 
 
-def parse_user(db, git_user_cofig):  # pragma: no cover
+def parse_user(db: DetailsBuilder, git_user_cofig: str) -> DetailsBuilder:  # pragma: no cover
     details = dict(line.split(None, 1) for line in git_user_cofig.splitlines())
     for key, value in details.items():
         db = db.inform("maintainer_" + key.removeprefix("user."), value)
     return db
 
 
-def get_details(args):  # pragma: no cover
+def get_details(args: argparse.Namespace) -> tuple[Mapping[str, str], bool]:  # pragma: no cover
     db = parse_args(DetailsBuilder(), args)
     cwd = pathlib.Path(args.env["PWD"])
     try:
@@ -85,7 +86,7 @@ ARGS_TO_FIELDS = dict(
         for field in attrs.fields(DetailsBuilder)
     ],
 )
-def init(args):  # pragma: no cover
+def init(args: argparse.Namespace) -> None:  # pragma: no cover
     data, has_git = get_details(args)
     cmdline = LOCAL_PYTHON.module.copier.copy(
         "gh:moshez/python-standard.git",

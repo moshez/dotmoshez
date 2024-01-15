@@ -1,5 +1,7 @@
+import argparse
 import os
 import pathlib
+from typing import Mapping, Iterator, Callable
 
 from . import ENTRY_DATA
 from gather.commands import add_argument
@@ -12,7 +14,7 @@ from commander_data import COMMAND
     add_argument("--host", required=True),
     add_argument("--user", required=True),
 )
-def sshirc(args):  # pragma: no cover
+def sshirc(args: argparse.Namespace) -> None:  # pragma: no cover
     execlp = getattr(args, "execlp", os.execlp)
     command = list(
         COMMAND.ssh(
@@ -25,7 +27,7 @@ def sshirc(args):  # pragma: no cover
     execlp(command[0], *command)
 
 
-def parse_environment(env_path):  # pragma: no cover
+def parse_environment(env_path: pathlib.Path) -> Iterator[tuple[str, str]]:  # pragma: no cover
     try:
         content = env_path.read_text()
     except OSError:
@@ -42,7 +44,7 @@ def parse_environment(env_path):  # pragma: no cover
         yield key, value
 
 
-def is_agent_up(env, safe_run):  # pragma: no cover
+def is_agent_up(env: Mapping[str, str], safe_run: Callable) -> bool:  # pragma: no cover
     try:
         pid = env["SSH_AGENT_PID"]
     except KeyError:
@@ -59,7 +61,7 @@ def is_agent_up(env, safe_run):  # pragma: no cover
     return False
 
 
-def bring_up_agent(env_path, run):  # pragma: no cover
+def bring_up_agent(env_path: pathlib.Path, run: Callable) -> None:  # pragma: no cover
     results = run(COMMAND.ssh_agent, capture_output=True)
     agent_output = results.stdout
     agent_output = agent_output.replace("echo ", "# echo ")
@@ -73,7 +75,7 @@ def bring_up_agent(env_path, run):  # pragma: no cover
     ),
     name="ssh-agent-env",
 )
-def ssh_agent_env(args):  # pragma: no cover
+def ssh_agent_env(args: argparse.Namespace) -> None:  # pragma: no cover
     args.env_path = pathlib.Path(args.env_path)
     env = dict(parse_environment(args.env_path))
     if not is_agent_up(env, args.safe_run):

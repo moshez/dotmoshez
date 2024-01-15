@@ -1,4 +1,6 @@
+import argparse
 import contextlib
+import io
 import os
 import pathlib
 import sys
@@ -10,7 +12,7 @@ from commander_data import COMMAND
 
 
 @ENTRY_DATA.register(add_argument("--dotfiles", required=True), name="bash-init")
-def shell_init(args):  # pragma: no cover
+def shell_init(args: argparse.Namespace) -> None:  # pragma: no cover
     home = pathlib.Path(args.env["HOME"])
     dotfiles_bin = pathlib.Path(args.dotfiles) / "bin"
     local_bin = home / ".local" / "bin"
@@ -43,7 +45,7 @@ def shell_init(args):  # pragma: no cover
     add_argument("--no-dry-run", action="store_true", default=False),
     name="bash-install",
 )
-def install(args):  # pragma: no cover
+def install(args: argparse.Namespace) -> None:  # pragma: no cover
     config = pathlib.Path(args.env["HOME"]) / ".config"
     dotfiles_config = pathlib.Path(args.dotfiles) / "config"
     if config.is_symlink():
@@ -61,6 +63,6 @@ def install(args):  # pragma: no cover
         if args.no_dry_run:
             fpout = stack.enter_context(bash_profile.open("a"))
         else:
-            fpout = sys.stdout
+            fpout = sys.stdout # type: ignore
         print(bash_init, file=fpout)
         print(ssh_agent, file=fpout)
