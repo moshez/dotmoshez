@@ -18,11 +18,9 @@ def sshirc(args):  # pragma: no cover
         COMMAND.ssh(
             o=["ServerAliveInterval=5", "ServerAliveCountMax=2"],
             t=f"{args.user}@{args.host}",
-        ).sudo.docker.exec(
-            i=None, t=None, u=args.user
-        )(
-            args.container
-        ).tmux.at
+        )
+        .sudo.docker.exec(i=None, t=None, u=args.user)(args.container)
+        .tmux.at
     )
     execlp(command[0], *command)
 

@@ -1,5 +1,4 @@
 import pathlib
-import sys
 from typing import Optional
 import subprocess
 import logging
@@ -94,7 +93,7 @@ def init(args):  # pragma: no cover
         *(
             f"--data={ARGS_TO_FIELDS.get(key, key)}={value}"
             for key, value in data.items()
-        )
+        ),
     )
     args.run(
         cmdline,

@@ -1,5 +1,4 @@
 import pathlib
-import os
 
 from . import ENTRY_DATA
 from gather.commands import add_argument
