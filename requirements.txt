@@ -8,10 +8,6 @@ annotated-types==0.6.0
     # via pydantic
 attrs==23.2.0
     # via gather
-black==23.12.1
-    # via -r -
-click==8.1.7
-    # via black
 colorama==0.4.6
     # via copier
 commander-data==2024.1.14.68987
@@ -26,8 +22,6 @@ dunamai==1.19.0
     # via copier
 filelock==3.13.1
     # via virtualenv
-flake8==7.0.0
-    # via -r -
 funcy==2.0
     # via copier
 gather==2024.1.11.79239
@@ -46,37 +40,24 @@ jinja2-ansible-filters==1.3.2
     # via copier
 markupsafe==2.1.3
     # via jinja2
-mccabe==0.7.0
-    # via flake8
-mypy-extensions==1.0.0
-    # via black
 packaging==23.2
     # via
-    #   black
     #   copier
     #   dunamai
 pathspec==0.12.1
-    # via
-    #   black
-    #   copier
+    # via copier
 pbr==6.0.0
     # via stevedore
 platformdirs==4.1.0
-    # via
-    #   black
-    #   virtualenv
+    # via virtualenv
 plumbum==1.8.2
     # via copier
 prompt-toolkit==3.0.36
     # via questionary
-pycodestyle==2.11.1
-    # via flake8
 pydantic==2.5.3
     # via copier
 pydantic-core==2.14.6
     # via pydantic
-pyflakes==3.2.0
-    # via flake8
 pygments==2.17.2
     # via copier
 pyyaml==6.0.1
