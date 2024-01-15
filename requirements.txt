@@ -10,6 +10,8 @@ attrs==23.2.0
     # via gather
 colorama==0.4.6
     # via copier
+commander-data==2024.1.14.68987
+    # via -r -
 copier==9.1.0
     # via -r -
 decorator==5.1.1
