@@ -49,7 +49,7 @@ def is_agent_up(env, safe_run):  # pragma: no cover
         pid = env["SSH_AGENT_PID"]
     except KeyError:
         return False
-    results = safe_run(["ps", "-ef", "--width", "1000"])
+    results = safe_run(COMMAND.ps(e=None, f=None, width=1000))
     lines = iter(results.stdout.splitlines())
     fields = next(lines).split()
     for a_line in lines:
@@ -62,7 +62,7 @@ def is_agent_up(env, safe_run):  # pragma: no cover
 
 
 def bring_up_agent(env_path, run):  # pragma: no cover
-    results = run(["ssh-agent"], capture_output=True)
+    results = run(COMMAND.ssh_agent, capture_output=True)
     agent_output = results.stdout
     agent_output = agent_output.replace("echo ", "# echo ")
     env_path.write_text(agent_output)
