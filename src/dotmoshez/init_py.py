@@ -8,11 +8,10 @@ import subprocess
 import attrs
 from commander_data import run_all
 from commander_data.common import GIT, LOCAL_PYTHON
-import hyperlink
 from gather.commands import add_argument
+import hyperlink
 
 from . import ENTRY_DATA
-
 LOGGER = logging.getLogger(__name__)
 
 
@@ -97,16 +96,16 @@ ARGS_TO_FIELDS = dict(
 )
 def init(args: argparse.Namespace) -> None:  # pragma: no cover
     data, has_git = get_details(args)
-    cmdline = LOCAL_PYTHON.module.copier.copy(
-        "gh:moshez/python-standard.git",
-        args.env["PWD"],
-        *(
-            f"--data={ARGS_TO_FIELDS.get(key, key)}={value}"
-            for key, value in data.items()
-        ),
-    )
+    data = {
+        ARGS_TO_FIELDS.get(key, key): value
+        for key, value in data.items()
+    }
     args.run(
-        cmdline,
+        LOCAL_PYTHON.module.copier.copy(
+            "gh:moshez/python-standard.git",
+            args.env["PWD"],
+            data=data,
+        ),
         capture_output=False,
     )
     if not has_git:
