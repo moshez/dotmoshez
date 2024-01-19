@@ -12,6 +12,7 @@ from gather.commands import add_argument
 import hyperlink
 
 from . import ENTRY_DATA
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -100,10 +101,7 @@ def init(args: argparse.Namespace) -> None:  # pragma: no cover
         LOCAL_PYTHON.module.copier.copy(
             "gh:moshez/python-standard.git",
             args.env["PWD"],
-            data={
-                ARGS_TO_FIELDS.get(key, key): value
-                for key, value in data.items()
-            },
+            data={ARGS_TO_FIELDS.get(key, key): value for key, value in data.items()},
         ),
     )
     if not has_git:
