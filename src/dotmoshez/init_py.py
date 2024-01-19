@@ -96,20 +96,18 @@ ARGS_TO_FIELDS = dict(
 )
 def init(args: argparse.Namespace) -> None:  # pragma: no cover
     data, has_git = get_details(args)
-    data = {
-        ARGS_TO_FIELDS.get(key, key): value
-        for key, value in data.items()
-    }
     args.run(
         LOCAL_PYTHON.module.copier.copy(
             "gh:moshez/python-standard.git",
             args.env["PWD"],
-            data=data,
+            data={
+                ARGS_TO_FIELDS.get(key, key): value
+                for key, value in data.items()
+            },
         ),
-        capture_output=False,
     )
     if not has_git:
-        url = f"https://github.com/{data['organization']}/{data['name']}"
+        url = f"https://github.com/{data['organization']}/{data['name']}.git"
         run_all(
             args.run,
             GIT.init("."),
