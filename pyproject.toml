@@ -10,7 +10,7 @@ dynamic = ["version"]
 description = "Moshe'z personal utilities"
 readme = "README.rst"
 authors = [{name = "Moshe Zadka", email = "moshez@zadka.club"}]
-dependencies = ["gather", "virtualenvwrapper", "hyperlink", "copier", "commander_data"]
+dependencies = ["gather", "virtualenvwrapper", "hyperlink", "copier", "commander_data", "pipx"]
 
 [project.optional-dependencies]
 tests = ["virtue", "pyhamcrest", "coverage"]

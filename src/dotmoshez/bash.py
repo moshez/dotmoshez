@@ -8,6 +8,7 @@ import textwrap
 from gather.commands import add_argument
 from . import ENTRY_DATA
 from commander_data import COMMAND
+from commander_data.common import LOCAL_PYTHON as PYTHON
 
 
 @ENTRY_DATA.register(add_argument("--dotfiles", required=True), name="bash-init")
@@ -65,3 +66,4 @@ def install(args: argparse.Namespace) -> None:  # pragma: no cover
             fpout = sys.stdout  # type: ignore
         print(bash_init, file=fpout)
         print(ssh_agent, file=fpout)
+    args.run(PYTHON.module.pipx.install("tox", "nox", "black", "twine"))
