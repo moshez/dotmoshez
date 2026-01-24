@@ -32,7 +32,8 @@ def git_create(args: argparse.Namespace) -> None:  # pragma: no cover
     run_all(
         args.run,
         GIT.init("."),
-        GIT.remote.add.origin(f"git@github.com:moshez/{args.name}"),
+        GIT.remote.add.origin(f"https://github.com/moshez/{args.name}.git"),
+        GIT.commit(allow_empty=None, m="Initial commit"),
         GIT.push(u="origin")("trunk"),
         cwd=target_dir,
     )
